@@ -12,9 +12,7 @@ const HomePage = () => {
       <PageSection>
         <HeroSection />
       </PageSection>
-      <PageSection>
-        <RecentPost />
-      </PageSection>
+      <RecentPost />
       <PageSection>
         <Quote />
       </PageSection>
