@@ -36,6 +36,7 @@ const App = () => {
   return (
     <BlogContext.Provider value={{ blog, setBlog, loading }}>
       <Navbar />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogPage />} />
