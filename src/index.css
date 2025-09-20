@@ -1,0 +1,376 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@400;500;700&display=swap");
+
+@import "tailwindcss";
+
+/* ================= Navbar Styles ================= */
+
+.nav-wrapper {
+  @apply w-full border-b border-gray-200;
+}
+
+.nav-container {
+  @apply max-w-7xl mx-auto flex items-center justify-between py-6 px-6;
+}
+
+.nav-logo {
+  @apply text-3xl font-serif text-orange-600; /* Playfair Display */
+}
+
+.nav-tagline {
+  @apply text-sm font-sans text-gray-600; /* Lato */
+}
+
+.nav-links {
+  @apply hidden md:flex;
+}
+
+.nav-link-list {
+  @apply flex space-x-8 font-sans text-gray-700; /* Lato */
+}
+
+.nav-link {
+  @apply hover:text-orange-600;
+}
+
+.nav-link-active {
+  @apply text-orange-600 font-medium hover:text-orange-700;
+}
+
+.nav-mobile-btn {
+  @apply md:hidden text-gray-700 z-50;
+}
+
+.nav-mobile-menu {
+  @apply md:hidden bg-white border-t border-gray-200;
+}
+
+.nav-mobile-list {
+  @apply flex flex-col space-y-4 p-6 font-sans text-gray-700; /* Lato */
+}
+
+/* ================= Hero Section Styles ================= */
+.hero-wrapper {
+  @apply mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 py-10 px-6 lg:pl-0;
+}
+
+.hero-img-left {
+  @apply w-full  object-cover rounded-lg;
+  height: auto;
+}
+
+.hero-preview {
+  @apply flex flex-col items-center justify-center text-center;
+}
+
+.hero-content {
+  @apply w-full max-w-md mx-auto;
+}
+
+.hero-img-right {
+  @apply w-full md:w-96 h-56 object-cover mb-6 rounded-md;
+}
+
+.hero-title {
+  @apply text-3xl font-serif text-gray-800 mb-4; /* Playfair Display */
+}
+
+.hero-text {
+  @apply font-sans text-gray-600 mb-6 leading-relaxed; /* Lato */
+}
+
+.hero-btn {
+  @apply border border-gray-800 px-6 py-2 font-sans text-gray-800 hover:bg-gray-100 transition duration-300;
+}
+
+/* ================= Recent Posts ================= */
+/* ================= Recent Posts ================= */
+.recent-wrapper {
+  @apply max-w-7xl mx-auto py-16 px-6 md:px-24;
+}
+
+.recent-title {
+  @apply text-4xl font-serif text-gray-800 mb-12;
+}
+
+.recent-card {
+  @apply grid grid-cols-1 mt-3 md:grid-cols-3 gap-10 items-start;
+}
+
+.recent-img {
+  @apply w-full object-cover rounded-md h-64 md:col-span-1;
+}
+
+.recent-content {
+  @apply flex flex-col justify-center md:col-span-2 cursor-pointer transition-colors duration-300;
+}
+
+.recent-content:hover .recent-meta,
+.recent-content:hover .recent-post-title,
+.recent-content:hover .recent-subtitle,
+.recent-content:hover .recent-comments {
+  @apply text-amber-600;
+}
+
+.recent-meta {
+  @apply text-sm text-gray-500 mb-2;
+}
+
+.recent-post-title {
+  @apply text-2xl font-serif text-gray-800 mb-4;
+}
+
+.recent-subtitle {
+  @apply text-gray-600 mb-6 leading-relaxed;
+}
+
+.recent-divider {
+  @apply border-t border-gray-300 my-4;
+}
+
+.recent-comments {
+  @apply text-sm text-gray-500;
+}
+
+/* ================= Quote ================= */
+
+.quote-container {
+  @apply flex items-center bg-white;
+}
+
+.quote-grid {
+  @apply grid grid-cols-1 md:grid-cols-2  w-full;
+}
+
+.quote-text-section {
+  @apply flex flex-col items-center md:items-start justify-center text-center md:text-left p-6;
+}
+
+.quote-text {
+  font-family: "Playfair Display", serif;
+  @apply text-2xl md:text-4xl text-gray-800 leading-snug;
+}
+
+.quote-author {
+  font-family: "Lato", sans-serif;
+  @apply mt-4 text-gray-500 text-sm;
+}
+
+.quote-image-section {
+  @apply flex items-center py-4;
+}
+
+.quote-image {
+  @apply shadow-md object-cover w-full;
+  height: 36rem;
+}
+
+.newsletter-container {
+  @apply flex flex-col items-center justify-center py-12 px-4 bg-white;
+}
+
+.newsletter-heading {
+  font-family: "Playfair Display", serif;
+  @apply text-3xl md:text-4xl text-gray-800 text-center font-semibold;
+}
+
+.newsletter-subheading {
+  font-family: "Lato", sans-serif;
+  @apply text-gray-600 text-center mt-2 mb-8;
+}
+
+.newsletter-form {
+  @apply w-full max-w-3xl flex flex-col gap-6;
+}
+
+.newsletter-input-row {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+.newsletter-input-group {
+  @apply flex flex-col;
+}
+
+.newsletter-label {
+  font-family: "Lato", sans-serif;
+  @apply text-sm text-gray-700 mb-2;
+}
+
+.newsletter-input {
+  @apply border-b border-gray-400 focus:outline-none focus:border-black py-2 text-gray-800;
+}
+
+.newsletter-checkbox {
+  @apply flex items-center gap-2;
+}
+
+.newsletter-checkbox-input {
+  @apply w-4 h-4 border-gray-400;
+}
+
+.newsletter-checkbox-label {
+  font-family: "Lato", sans-serif;
+  @apply text-sm text-gray-700;
+}
+
+.newsletter-button {
+  font-family: "Lato", sans-serif;
+  @apply border border-gray-800 px-8 py-2 mt-4 mx-auto md:mx-0 hover:bg-[#675c56] hover:text-white transition;
+}
+
+.pictures-container {
+  @apply py-12 px-4 bg-white flex flex-col items-center;
+}
+
+.pictures-heading {
+  font-family: "Playfair Display", serif;
+  @apply text-3xl md:text-4xl text-gray-800 text-center font-semibold mb-10;
+}
+
+.pictures-grid {
+  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-6xl;
+}
+
+.pictures-image {
+  @apply w-full h-48 object-cover  shadow-md hover:scale-105 transition-transform duration-300 ease-in-out;
+}
+
+/* ================= Footer Styles ================= */
+.footer-wrapper {
+  @apply text-amber-700 py-12 px-6;
+  background-color: #675c56;
+}
+
+.footer-grid {
+  @apply max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10;
+}
+
+.footer-col {
+  @apply flex flex-col gap-3;
+}
+
+.footer-logo {
+  @apply text-2xl font-bold text-white mb-4;
+  font-family: "Playfair Display", serif;
+}
+
+.footer-text {
+  @apply text-sm leading-relaxed text-white;
+  font-family: "Lato", sans-serif;
+}
+
+.footer-title {
+  @apply text-lg font-semibold text-white mb-4;
+  font-family: "Playfair Display", serif;
+}
+
+.footer-links {
+  @apply space-y-2;
+}
+
+.footer-link {
+  @apply text-sm text-gray-300 hover:text-yellow-400 transition-colors duration-300;
+  font-family: "Lato", sans-serif;
+}
+
+.footer-divider {
+  @apply border-t border-gray-700 mt-8 pt-6;
+}
+
+.footer-bottom {
+  @apply max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-sm text-gray-500;
+  font-family: "Lato", sans-serif;
+}
+
+.footer-social {
+  @apply flex gap-4 mt-4 md:mt-0;
+}
+
+.footer-icon {
+  @apply text-gray-400 hover:text-yellow-400 transition-colors duration-300;
+}
+
+/* ABOUT PAGE */
+
+@layer components {
+  .about-container {
+    @apply min-h-screen bg-[#fdf7f6] flex items-center justify-center p-8;
+  }
+
+  .about-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl items-center;
+  }
+
+  .about-image {
+    @apply rounded-xl h-96 shadow-lg object-cover;
+  }
+
+  .about-title {
+    font-family: "Playfair Display", serif;
+    @apply text-4xl font-bold mb-2;
+  }
+
+  .about-subtitle {
+    font-family: "Playfair Display", serif;
+    @apply text-lg text-gray-600 mb-6;
+  }
+
+  .about-paragraph {
+    font-family: "Lato", sans-serif;
+    @apply text-gray-700 leading-relaxed mb-4;
+  }
+
+  .about-paragraph:last-child {
+    @apply mb-0;
+  }
+}
+
+/* BLOG STYLINGS  */
+
+@layer components {
+  .blog-container {
+    @apply min-h-screen bg-white px-6 py-12 flex flex-col items-center;
+  }
+
+  .blog-header {
+    font-family: "Playfair Display", serif;
+    @apply text-xl font-semibold text-orange-600 mb-10 w-full max-w-5xl;
+  }
+
+  .blog-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl;
+  }
+
+  .blog-card {
+    @apply bg-white overflow-hidden transition hover:shadow-xl;
+  }
+
+  .blog-image {
+    @apply w-full h-64 object-cover;
+  }
+
+  .blog-content {
+    @apply p-5;
+  }
+
+  .blog-meta {
+    @apply flex items-center text-sm text-gray-500 space-x-2 mb-3;
+  }
+
+  .blog-title {
+    font-family: "Playfair Display", serif;
+    @apply text-lg font-semibold text-gray-800 mb-2 transition-colors duration-300;
+  }
+
+  .blog-card:hover .blog-title {
+    @apply text-amber-600;
+  }
+
+  .blog-description {
+    font-family: "Lato", sans-serif;
+    @apply text-sm text-gray-600 leading-relaxed transition-colors duration-300;
+  }
+
+  .blog-card:hover .blog-description {
+    @apply text-amber-600;
+  }
+}
