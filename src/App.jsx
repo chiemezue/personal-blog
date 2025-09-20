@@ -23,18 +23,15 @@ const App = () => {
         setLoading(true);
         const res = await fetch(`${apiUrl}/api/blogs`);
         const data = await res.json();
-        // simulate a short delay to see skeleton effect
-        setTimeout(() => {
-          setBlog(data);
-          setLoading(false);
-        }, 1000); // 1 second delay
+        setBlog(data);
+        setLoading(false);
       } catch (error) {
         console.error("Having issue with the fetch", error);
         setLoading(false);
       }
     };
     fetchBlog();
-  }, [apiUrl]); // removed [blog] to prevent infinite fetching
+  }, [apiUrl]); // keep [apiUrl] as dependency
 
   return (
     <BlogContext.Provider value={{ blog, setBlog, loading }}>
