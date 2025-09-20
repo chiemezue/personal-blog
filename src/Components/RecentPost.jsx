@@ -12,7 +12,7 @@ const RecentPost = () => {
       <h2 className="recent-title">Recent Posts</h2>
       <div>
         {loading ? (
-          <SkeletonLoader count={4} /> // display 4 skeleton cards while loading
+          <SkeletonLoader count={1} /> // display 4 skeleton cards while loading
         ) : (
           blog
             .slice(-4)

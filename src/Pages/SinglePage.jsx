@@ -9,6 +9,9 @@ const SinglePage = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    // Scroll to top when navigating to this page
+    window.scrollTo(0, 0);
+
     const fetchSingleBlog = async () => {
       setLoading(true);
       try {
