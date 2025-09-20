@@ -15,22 +15,29 @@ import ManagePostsPage from "./Pages/ManagePostsPage";
 const App = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [blog, setBlog] = useState([]);
+  const [loading, setLoading] = useState(true); // new loading state
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
+        setLoading(true);
         const res = await fetch(`${apiUrl}/api/blogs`);
         const data = await res.json();
-        setBlog(data);
+        // simulate a short delay to see skeleton effect
+        setTimeout(() => {
+          setBlog(data);
+          setLoading(false);
+        }, 1000); // 1 second delay
       } catch (error) {
         console.error("Having issue with the fetch", error);
+        setLoading(false);
       }
     };
     fetchBlog();
-  }, [blog]);
+  }, [apiUrl]); // removed [blog] to prevent infinite fetching
 
   return (
-    <BlogContext.Provider value={{ blog, setBlog }}>
+    <BlogContext.Provider value={{ blog, setBlog, loading }}>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
