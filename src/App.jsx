@@ -18,20 +18,22 @@ const App = () => {
   const [loading, setLoading] = useState(true); // new loading state
 
   useEffect(() => {
-    const fetchBlog = async () => {
-      try {
+    if (blog.length === 0) {
+      const fetchBlog = async () => {
         setLoading(true);
-        const res = await fetch(`${apiUrl}/api/blogs`);
-        const data = await res.json();
-        setBlog(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Having issue with the fetch", error);
-        setLoading(false);
-      }
-    };
-    fetchBlog();
-  }, [apiUrl]); // keep [apiUrl] as dependency
+        try {
+          const res = await fetch(`${apiUrl}/api/blogs`);
+          const data = await res.json();
+          setBlog(data);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchBlog();
+    }
+  }, [apiUrl, blog.length]);
 
   return (
     <BlogContext.Provider value={{ blog, setBlog, loading }}>
