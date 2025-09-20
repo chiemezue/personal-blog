@@ -328,24 +328,8 @@ const AdminPage = () => {
                   >
                     Blog Content <span className="text-red-500">*</span>
                   </label>
+
                   <Editor
-                    id="content"
-                    name="content"
-                    value={formData.content}
-                    onEditorChange={(content) =>
-                      handleInputChange(content, "content")
-                    }
-                    required
-                    apiKey="cz7u885fl5244rtj0r961mcvi6hsjjieagavh88du2dfe6v7"
-                    init={{
-                      plugins:
-                        "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",
-                      toolbar:
-                        "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat",
-                    }}
-                    initialValue="Welcome to TinyMCE!"
-                  />
-                  {/* <Editor
                     id="content"
                     name="content"
                     value={formData.content}
@@ -386,7 +370,7 @@ const AdminPage = () => {
                       content_style:
                         "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                     }}
-                  /> */}
+                  />
                 </div>
 
                 {/* Reading Time */}
