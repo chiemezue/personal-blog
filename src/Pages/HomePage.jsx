@@ -1,27 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 import HeroSection from "../Components/HeroSection";
 import RecentPost from "../Components/RecentPost";
 import Quote from "../Components/Quote";
 import Pictures from "../Components/Pictures";
 import Newsletter from "../Components/Newsletter";
-import PageSection from "../Components/PageSection";
 
 const HomePage = () => {
+  useEffect(() => {
+    AOS.init({ duration: 1500, once: true });
+  }, []);
+
   return (
     <>
-      <PageSection>
+      <div data-aos="fade-up">
         <HeroSection />
-      </PageSection>
-      <RecentPost />
-      <PageSection>
+      </div>
+
+      <div data-aos="fade-right">
+        <RecentPost />
+      </div>
+
+      <div data-aos="zoom-in">
         <Quote />
-      </PageSection>
-      <PageSection>
+      </div>
+
+      <div data-aos="fade-left">
         <Pictures />
-      </PageSection>
-      <PageSection>
+      </div>
+
+      <div data-aos="fade-up">
         <Newsletter />
-      </PageSection>
+      </div>
     </>
   );
 };

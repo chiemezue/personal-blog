@@ -6,7 +6,7 @@ const SkeletonLoader = ({ count = 4 }) => {
       {Array.from({ length: count }).map((_, index) => (
         <div
           key={index}
-          className="flex flex-col rounded-lg overflow-hidden animate-pulse bg-gray-700"
+          className="flex flex-col rounded-lg overflow-hidden animate-pulse bg-gray-400"
         >
           {/* Image placeholder */}
           <div className="w-full h-48 bg-gray-700"></div>

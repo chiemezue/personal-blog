@@ -12,14 +12,18 @@ const RecentPost = () => {
       <h2 className="recent-title">Recent Posts</h2>
       <div>
         {loading ? (
-          <SkeletonLoader count={1} /> // display 4 skeleton cards while loading
+          <SkeletonLoader count={4} /> // display skeleton while loading
         ) : (
           blog
             .slice(-4)
             .reverse()
-            .map((post) => (
+            .map((post, index) => (
               <Link to={`/blogs/${post.id}`} key={post.id}>
-                <div className="recent-card">
+                <div
+                  className="recent-card"
+                  data-aos="fade-up"
+                  data-aos-delay={index * 200} // stagger animations (0ms, 200ms, 400ms, 600ms)
+                >
                   {/* Left image */}
                   <img
                     src={`${apiUrl}/images/${post.imagePath}`}
