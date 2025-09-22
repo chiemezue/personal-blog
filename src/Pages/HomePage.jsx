@@ -10,7 +10,7 @@ import Newsletter from "../Components/Newsletter";
 
 const HomePage = () => {
   useEffect(() => {
-    AOS.init({ duration: 1500, once: true });
+    AOS.init({ duration: 1200, once: true });
   }, []);
 
   return (
