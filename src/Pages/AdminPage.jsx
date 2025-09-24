@@ -4,6 +4,7 @@ import { Upload, FileText, Eye, Edit, Trash2, Tag, Clock } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { BlogContext } from "../Components/BlogContext";
 import { useContext } from "react";
+import axios from "axios";
 
 const AdminPage = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -81,16 +82,14 @@ const AdminPage = () => {
       );
       formDataToSend.append("image", selectedImage);
 
-      const res = await fetch(`${apiUrl}/api/submitBlog`, {
-        method: "POST",
-        body: formDataToSend,
+      const res = await axios.post(`${apiUrl}/api/submitBlog`, formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       if (res.status === 201) {
-        const data = await res.json();
-
         showMessage("Blog post created successfully!", "success");
-
         resetForm();
       } else {
         showMessage("Failed to create blog. Please try again.", "error");

@@ -47,6 +47,11 @@ const Navbar = () => {
                 Admin
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/register" className={navLinkClasses}>
+                Register
+              </NavLink>
+            </li>
           </ul>
         </nav>
 
@@ -106,6 +111,15 @@ const Navbar = () => {
               onClick={() => setIsOpen(false)}
             >
               Admin
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/register"
+              className={navLinkClasses}
+              onClick={() => setIsOpen(false)}
+            >
+              Register
             </NavLink>
           </li>
         </ul>
