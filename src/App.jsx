@@ -12,6 +12,7 @@ import ScrollToTop from "./Components/ScrollToTopButton";
 import SinglePage from "./Pages/SinglePage";
 import ManagePostsPage from "./Pages/ManagePostsPage";
 import RegisterPage from "./Pages/RegisterPage";
+import LoginPage from "./Pages/LoginPage";
 
 const App = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -43,6 +44,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutPage />} />

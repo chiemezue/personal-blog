@@ -52,6 +52,11 @@ const Navbar = () => {
                 Register
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/login" className={navLinkClasses}>
+                Login
+              </NavLink>
+            </li>
           </ul>
         </nav>
 
@@ -120,6 +125,15 @@ const Navbar = () => {
               onClick={() => setIsOpen(false)}
             >
               Register
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/login"
+              className={navLinkClasses}
+              onClick={() => setIsOpen(false)}
+            >
+              Login
             </NavLink>
           </li>
         </ul>

@@ -2,88 +2,76 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
-
   const [show, setShow] = useState(false);
-  const [input, setInput] = useState({
+  const [loginData, setLoginData] = useState({
     username: "",
-    email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const [message, setMessage] = useState({ text: "", type: "" });
-  const [loading, setLoading] = useState(false);
+
+  const handleEye = () => setShow((prev) => !prev);
 
   const handleInputChange = (eOrValue) => {
     const { name, value } = eOrValue.target;
-    setInput((prev) => ({
+    setLoginData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
-
-  const togglePassword = () => setShow((prev) => !prev);
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
-    if (!input.username || !input.email || !input.password) {
-      showMessage("Please fill in the blank fields", "error");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      const form = {
-        username: input.username,
-        email: input.email,
-        password: input.password,
-      };
-
-      const res = await axios.post(`${apiUrl}/register`, form, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (res.status === 201) {
-        const data = res.data;
-        showMessage(data.success, "success");
-        resetForm();
-      } else {
-        showMessage("Could not register", "error");
-      }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 400) {
-          showMessage(error.response.data.error, "error");
-        } else {
-          showMessage("Something went wrong", "error");
-        }
-      }
-
-      console.log("Trouble registerin", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const resetForm = () => {
-    setInput({
-      username: "",
-      email: "",
-      password: "",
-    });
   };
 
   const showMessage = (text, type) => {
     setMessage({ text, type });
     setTimeout(() => {
       setMessage({ text: "", type: "" });
-    }, 2000);
+    }, 2500);
   };
 
+  const resetForm = () => {
+    setLoginData({
+      username: "",
+      password: "",
+    });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!loginData.username || !loginData.password) {
+      showMessage("Please fill in empty fields", "error");
+      return;
+    }
+
+    try {
+      const formData = {
+        username: loginData.username,
+        password: loginData.password,
+      };
+      const res = await axios.post(`${apiUrl}/login`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.status === 200) {
+        const data = res.data;
+        showMessage(data.message, "success");
+        resetForm();
+      }
+    } catch (error) {
+      if (error.response.status === 404) {
+        showMessage(error.response.data.error, "error");
+      } else if (error.response.status === 401) {
+        showMessage(error.response.data.error, "error");
+      } else {
+        showMessage("Something Went Wrong", "error");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="register-container">
       {message.text && (
@@ -104,27 +92,12 @@ const RegisterPage = () => {
           Username
         </label>
         <input
+          value={loginData.username}
+          onChange={handleInputChange}
           type="text"
           name="username"
           id="username"
-          value={input.username}
           className="register-input"
-          onChange={handleInputChange}
-        />
-      </div>
-
-      {/* Email */}
-      <div className="register-field">
-        <label htmlFor="email" className="register-label">
-          Email
-        </label>
-        <input
-          type="text"
-          name="email"
-          id="email"
-          value={input.email}
-          className="register-input"
-          onChange={handleInputChange}
         />
       </div>
 
@@ -136,15 +109,15 @@ const RegisterPage = () => {
         <div className="register-password-wrapper">
           <input
             type={show ? "text" : "password"}
+            value={loginData.password}
+            onChange={handleInputChange}
             name="password"
             id="password"
-            value={input.password}
             className="register-input-password"
-            onChange={handleInputChange}
           />
           <button
             type="button"
-            onClick={togglePassword}
+            onClick={handleEye}
             className="register-toggle-btn"
           >
             {show ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -153,15 +126,11 @@ const RegisterPage = () => {
       </div>
 
       {/* Submit */}
-      <button
-        type="submit"
-        onClick={handleRegister}
-        className="register-submit"
-      >
-        Register
+      <button type="submit" onClick={handleLogin} className="register-submit">
+        Login
       </button>
     </div>
   );
 };
 
-export default RegisterPage;
+export default LoginPage;
