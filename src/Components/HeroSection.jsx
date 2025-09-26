@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -24,7 +25,9 @@ const HeroSection = () => {
           Create a blog post subtitle that summarizes your post in a few short,
           punchy sentences and entices your audience to continue reading....
         </p>
-        <button className="hero-btn">All Posts</button>
+        <button className="hero-btn">
+          <Link to={"/blog"}>All Posts</Link>
+        </button>
       </div>
     </section>
   );

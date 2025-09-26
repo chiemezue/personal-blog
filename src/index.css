@@ -4,6 +4,11 @@
 
 /* ================= Navbar Styles ================= */
 
+html,
+body {
+  @apply overflow-x-hidden;
+}
+
 .nav-wrapper {
   @apply w-full border-b border-gray-200;
 }

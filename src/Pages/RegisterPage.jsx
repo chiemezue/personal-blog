@@ -10,6 +10,7 @@ const RegisterPage = () => {
     username: "",
     email: "",
     password: "",
+    userType: "user",
   });
 
   const [message, setMessage] = useState({ text: "", type: "" });
@@ -39,6 +40,7 @@ const RegisterPage = () => {
         username: input.username,
         email: input.email,
         password: input.password,
+        userType: input.userType,
       };
 
       const res = await axios.post(`${apiUrl}/register`, form, {

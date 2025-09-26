@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import HomePage from "./Pages/HomePage";
@@ -13,11 +13,14 @@ import SinglePage from "./Pages/SinglePage";
 import ManagePostsPage from "./Pages/ManagePostsPage";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
+import ProtectedRoute from "./Pages/ProtectedRoute";
 
 const App = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [blog, setBlog] = useState([]);
   const [loading, setLoading] = useState(true); // new loading state
+  const isloggedIn = window.localStorage.getItem("loggedIn");
+  const userType = window.localStorage.getItem("userType");
 
   useEffect(() => {
     if (blog.length === 0) {
@@ -39,21 +42,43 @@ const App = () => {
 
   return (
     <BlogContext.Provider value={{ blog, setBlog, loading }}>
-      <Navbar />
-      <ScrollToTop />
+      <Navbar isloggedIn={isloggedIn} userType={userType} />
+
       <Routes>
+        {/* Public routes */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/admin" element={<AdminPage blog={blog} />} />
-        <Route path="/blogs/:id" element={<SinglePage />} />
-        <Route path="/manage-posts" element={<ManagePostsPage />} />
+        <Route path="*" element={<Navigate to="/" />} />
+        {!isloggedIn && (
+          <>
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+          </>
+        )}
+
+        {/* Protected routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/register" element={<Navigate to="/" />} />
+          <Route path="/login" element={<Navigate to="/" />} />
+
+          {userType === "admin" ? (
+            <>
+              <Route path="/admin" element={<AdminPage blog={blog} />} />
+              <Route path="/manage-posts" element={<ManagePostsPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blogs/:id" element={<SinglePage />} />
+            </>
+          ) : (
+            <>
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/blogs/:id" element={<SinglePage />} />
+            </>
+          )}
+        </Route>
       </Routes>
-      <Footer />
       <ScrollToTop />
+      {isloggedIn && <Footer />}
     </BlogContext.Provider>
   );
 };

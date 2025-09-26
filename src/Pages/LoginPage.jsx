@@ -59,6 +59,15 @@ const LoginPage = () => {
         const data = res.data;
         showMessage(data.message, "success");
         resetForm();
+        window.localStorage.setItem("token", data.user);
+        window.localStorage.setItem("userType", data.user.userType);
+        window.localStorage.setItem("loggedIn", "true");
+
+        if (data.user.userType === "admin") {
+          window.location.href = "/admin";
+        } else {
+          window.location.href = "/";
+        }
       }
     } catch (error) {
       if (error.response.status === 404) {
