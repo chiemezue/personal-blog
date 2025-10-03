@@ -1,29 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
-const Navbar = ({ isloggedIn, userType }) => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  // Load user from localStorage on mount
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("loggedIn");
+    const userType = localStorage.getItem("userType");
+    const username = localStorage.getItem("username"); // optional if you stored it
+    const email = localStorage.getItem("email"); // optional
+
+    if (loggedIn) {
+      setUser({ userType, username, email });
+    }
+  }, []);
 
   const navLinkClasses = ({ isActive }) =>
     isActive
-      ? "nav-link-active  text-white px-3 py-1 rounded"
+      ? "nav-link-active text-white px-3 py-1 rounded"
       : "nav-link hover:text-orange-600";
 
-  // logout functionality
   const handleLogout = () => {
-    window.localStorage.removeItem("token");
-    window.localStorage.removeItem("userType");
-    window.localStorage.removeItem("loggedIn");
-    window.location.reload();
-    navigate("/login");
+    // Clear storage
+    localStorage.removeItem("token");
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("userType");
+
+    setUser(null);
+    setIsOpen(false);
+    window.location.href = "/login";
   };
 
   return (
     <header className="nav-wrapper">
       <div className="nav-container">
-        {/* Logo + tagline */}
         <div>
           <h1 className="nav-logo">Inner Pieces</h1>
           <p className="nav-tagline">Thoughts on Lifestyle & Mental Health</p>
@@ -37,7 +51,8 @@ const Navbar = ({ isloggedIn, userType }) => {
                 Home
               </NavLink>
             </li>
-            {!isloggedIn && (
+
+            {!user && (
               <>
                 <li>
                   <NavLink to="/register" className={navLinkClasses}>
@@ -52,7 +67,7 @@ const Navbar = ({ isloggedIn, userType }) => {
               </>
             )}
 
-            {isloggedIn && userType === "admin" ? (
+            {user && user.userType === "admin" ? (
               <>
                 <li>
                   <NavLink to="/blog" className={navLinkClasses}>
@@ -65,11 +80,13 @@ const Navbar = ({ isloggedIn, userType }) => {
                   </NavLink>
                 </li>
                 <li>
-                  <button className={navLinkClasses}>Logout</button>
+                  <button className={navLinkClasses} onClick={handleLogout}>
+                    Logout
+                  </button>
                 </li>
               </>
             ) : (
-              isloggedIn && (
+              user && (
                 <>
                   <li>
                     <NavLink to="/blog" className={navLinkClasses}>
@@ -87,12 +104,7 @@ const Navbar = ({ isloggedIn, userType }) => {
                     </NavLink>
                   </li>
                   <li>
-                    <button
-                      className={navLinkClasses}
-                      onClick={() => {
-                        handleLogout();
-                      }}
-                    >
+                    <button className={navLinkClasses} onClick={handleLogout}>
                       Logout
                     </button>
                   </li>
@@ -102,13 +114,13 @@ const Navbar = ({ isloggedIn, userType }) => {
           </ul>
         </nav>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Hamburger */}
         <button className="nav-mobile-btn" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Sidebar with Transition */}
+      {/* Mobile Sidebar */}
       <div
         className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-40 ${
           isOpen ? "translate-x-0" : "translate-x-full"
@@ -124,7 +136,8 @@ const Navbar = ({ isloggedIn, userType }) => {
               Home
             </NavLink>
           </li>
-          {!isloggedIn && (
+
+          {!user && (
             <>
               <li>
                 <NavLink
@@ -147,7 +160,7 @@ const Navbar = ({ isloggedIn, userType }) => {
             </>
           )}
 
-          {isloggedIn && userType === "admin" ? (
+          {user && user.userType === "admin" ? (
             <>
               <li>
                 <NavLink
@@ -168,19 +181,13 @@ const Navbar = ({ isloggedIn, userType }) => {
                 </NavLink>
               </li>
               <li>
-                <button
-                  className={navLinkClasses}
-                  onClick={() => {
-                    handleLogout();
-                    setIsOpen(false);
-                  }}
-                >
+                <button className={navLinkClasses} onClick={handleLogout}>
                   Logout
                 </button>
               </li>
             </>
           ) : (
-            isloggedIn && (
+            user && (
               <>
                 <li>
                   <NavLink
@@ -210,13 +217,7 @@ const Navbar = ({ isloggedIn, userType }) => {
                   </NavLink>
                 </li>
                 <li>
-                  <button
-                    className={navLinkClasses}
-                    onClick={() => {
-                      handleLogout();
-                      setIsOpen(false);
-                    }}
-                  >
+                  <button className={navLinkClasses} onClick={handleLogout}>
                     Logout
                   </button>
                 </li>

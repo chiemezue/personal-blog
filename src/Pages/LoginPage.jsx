@@ -10,7 +10,6 @@ const LoginPage = () => {
     password: "",
   });
   const [loading, setLoading] = useState(false);
-
   const [message, setMessage] = useState({ text: "", type: "" });
 
   const handleEye = () => setShow((prev) => !prev);
@@ -45,21 +44,15 @@ const LoginPage = () => {
     }
 
     try {
-      const formData = {
-        username: loginData.username,
-        password: loginData.password,
-      };
-      const res = await axios.post(`${apiUrl}/login`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const res = await axios.post(`${apiUrl}/login`, loginData, {
+        headers: { "Content-Type": "application/json" },
       });
 
       if (res.status === 200) {
         const data = res.data;
         showMessage(data.message, "success");
         resetForm();
-        window.localStorage.setItem("token", data.user);
+        window.localStorage.setItem("token", data.token);
         window.localStorage.setItem("userType", data.user.userType);
         window.localStorage.setItem("loggedIn", "true");
 
@@ -70,9 +63,9 @@ const LoginPage = () => {
         }
       }
     } catch (error) {
-      if (error.response.status === 404) {
+      if (error.response?.status === 404) {
         showMessage(error.response.data.error, "error");
-      } else if (error.response.status === 401) {
+      } else if (error.response?.status === 401) {
         showMessage(error.response.data.error, "error");
       } else {
         showMessage("Something Went Wrong", "error");
@@ -81,6 +74,12 @@ const LoginPage = () => {
       setLoading(false);
     }
   };
+
+  // 🔹 Handle Google Login
+  const handleGoogleLogin = () => {
+    window.location.href = `${apiUrl}/auth/google`;
+  };
+
   return (
     <div className="register-container">
       {message.text && (
@@ -136,7 +135,19 @@ const LoginPage = () => {
 
       {/* Submit */}
       <button type="submit" onClick={handleLogin} className="register-submit">
-        Login
+        {loading ? "Logging in..." : "Login"}
+      </button>
+
+      {/* OR divider */}
+      <div className="my-4 text-center text-gray-500">OR</div>
+
+      {/* Google Login Button */}
+      <button
+        type="button"
+        onClick={handleGoogleLogin}
+        className="w-full px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+      >
+        Continue with Google
       </button>
     </div>
   );

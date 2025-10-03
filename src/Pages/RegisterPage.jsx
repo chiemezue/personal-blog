@@ -53,6 +53,7 @@ const RegisterPage = () => {
         const data = res.data;
         showMessage(data.success, "success");
         resetForm();
+        window.location.href = "/login";
       } else {
         showMessage("Could not register", "error");
       }

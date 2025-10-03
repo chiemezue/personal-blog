@@ -22,6 +22,26 @@ const App = () => {
   const isloggedIn = window.localStorage.getItem("loggedIn");
   const userType = window.localStorage.getItem("userType");
 
+  // ✅ useEffect to handle Google login redirect
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const token = params.get("token");
+    const name = params.get("name");
+    const email = params.get("email");
+    const userTypeFromGoogle = params.get("userType"); // we added this in backend
+
+    if (token && email) {
+      localStorage.setItem("token", token);
+      localStorage.setItem("username", name);
+      localStorage.setItem("email", email);
+      localStorage.setItem("userType", userTypeFromGoogle || "user"); // default "user"
+      localStorage.setItem("loggedIn", "true");
+
+      // 🔥 remove query params from URL so it looks clean
+      window.history.replaceState({}, document.title, "/");
+    }
+  }, [location.search]);
+
   useEffect(() => {
     if (blog.length === 0) {
       const fetchBlog = async () => {
