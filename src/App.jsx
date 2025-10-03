@@ -39,6 +39,7 @@ const App = () => {
 
       // 🔥 remove query params from URL so it looks clean
       window.history.replaceState({}, document.title, "/");
+      window.location.reload();
     }
   }, [location.search]);
 
