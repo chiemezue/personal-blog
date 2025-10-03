@@ -18,61 +18,79 @@ import ProtectedRoute from "./Pages/ProtectedRoute";
 const App = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [blog, setBlog] = useState([]);
-  const [loading, setLoading] = useState(true); // new loading state
-  const isloggedIn = window.localStorage.getItem("loggedIn");
-  const userType = window.localStorage.getItem("userType");
+  const [loading, setLoading] = useState(true);
 
-  // ✅ useEffect to handle Google login redirect
+  // ✅ Login state managed via React state
+  const [user, setUser] = useState(() => {
+    const loggedIn = localStorage.getItem("loggedIn");
+    if (loggedIn) {
+      return {
+        username: localStorage.getItem("username"),
+        email: localStorage.getItem("email"),
+        userType: localStorage.getItem("userType"),
+      };
+    }
+    return null;
+  });
+
+  // ✅ Handle Google login redirect
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const token = params.get("token");
     const name = params.get("name");
     const email = params.get("email");
-    const userTypeFromGoogle = params.get("userType"); // we added this in backend
+    const userTypeFromGoogle = params.get("userType");
 
     if (token && email) {
+      // Save to localStorage
       localStorage.setItem("token", token);
       localStorage.setItem("username", name);
       localStorage.setItem("email", email);
-      localStorage.setItem("userType", userTypeFromGoogle || "user"); // default "user"
+      localStorage.setItem("userType", userTypeFromGoogle || "user");
       localStorage.setItem("loggedIn", "true");
 
-      // 🔥 remove query params from URL so it looks clean
+      // Update React state
+      setUser({
+        username: name,
+        email,
+        userType: userTypeFromGoogle || "user",
+      });
+
+      // Clean up URL
       window.history.replaceState({}, document.title, "/");
-      window.location.reload();
     }
   }, [location.search]);
 
+  // ✅ Fetch blog posts
   useEffect(() => {
-    if (blog.length === 0) {
-      const fetchBlog = async () => {
-        setLoading(true);
-        try {
-          const res = await fetch(`${apiUrl}/api/blogs`);
-          const data = await res.json();
-          setBlog(data);
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchBlog();
-    }
-  }, [apiUrl, blog.length]);
+    const fetchBlog = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`${apiUrl}/api/blogs`);
+        const data = await res.json();
+        setBlog(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlog();
+  }, [apiUrl]);
 
   return (
     <BlogContext.Provider value={{ blog, setBlog, loading }}>
-      <Navbar isloggedIn={isloggedIn} userType={userType} />
+      <Navbar user={user} setUser={setUser} />
 
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Navigate to="/" />} />
-        {!isloggedIn && (
+        {!user && (
           <>
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<LoginPage setUser={setUser} />} />
           </>
         )}
 
@@ -81,7 +99,7 @@ const App = () => {
           <Route path="/register" element={<Navigate to="/" />} />
           <Route path="/login" element={<Navigate to="/" />} />
 
-          {userType === "admin" ? (
+          {user?.userType === "admin" ? (
             <>
               <Route path="/admin" element={<AdminPage blog={blog} />} />
               <Route path="/manage-posts" element={<ManagePostsPage />} />
@@ -98,8 +116,9 @@ const App = () => {
           )}
         </Route>
       </Routes>
+
       <ScrollToTop />
-      {isloggedIn && <Footer />}
+      {user && <Footer />}
     </BlogContext.Provider>
   );
 };

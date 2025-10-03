@@ -1,23 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
-const Navbar = () => {
+const Navbar = ({ user, setUser }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
-  // Load user from localStorage on mount
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("loggedIn");
-    const userType = localStorage.getItem("userType");
-    const username = localStorage.getItem("username"); // optional if you stored it
-    const email = localStorage.getItem("email"); // optional
-
-    if (loggedIn) {
-      setUser({ userType, username, email });
-    }
-  }, []);
 
   const navLinkClasses = ({ isActive }) =>
     isActive
@@ -29,10 +16,14 @@ const Navbar = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("userType");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
 
+    // Update parent state
     setUser(null);
     setIsOpen(false);
-    window.location.href = "/login";
+
+    navigate("/login");
   };
 
   return (
